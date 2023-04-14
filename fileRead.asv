@@ -1,0 +1,17 @@
+clc; close all; clear;
+
+filepath = 'data/GenreClassData_30s.txt';
+
+% data = extractFileText(filepath);
+
+file = fopen(filepath);
+M = readmatrix(filepath);
+trainingSize = 800;
+srm = M(1:trainingSize,11);
+mf1m = M(1:trainingSize,42);
+spm = M(1:trainingSize,7);
+tempo = M(1:trainingSize,41);
+
+
+training = [srm' ; mf1m ; spm ; tempo];
+

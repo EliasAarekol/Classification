@@ -1,0 +1,37 @@
+function class = kNNClassifier(k,test,training,nclasses)
+
+    N = length(training);
+    diff = zeros(size(training,1)+1,size(training,2));
+    for n = 1:N
+        localdiff = test(:,N)-training(2:end,N);
+        diff(:,N) = [norm(localdiff) ;normtraining(1,N) ; localdiff];
+    end
+    diff = sortrows(diff',1)';
+    
+    classCount = zeros(2,nclasses);
+    classCount(1,:) = 0:19;
+    
+    for n = 1:k 
+        element = diff(2,n);
+        classCount(2,element) = classCount(2,element) +1 ;
+    end
+    
+    classCount = sortrows(classCount',2)';
+    classCount = flip(classCount,2);
+    
+    identicals = zeros(1,k);
+    highest = classCount(2,end);
+    n = size(classCount,2);
+    exit = 0;
+    while not(exit)
+        n = n-1;
+        if classCount(2,n) == highest
+            identicals(n) = classCount(1,n);
+        elseif 
+        end
+    
+    end
+
+    end
+
+    function 
