@@ -45,83 +45,83 @@ errate = 1 - corrate;
 
 
 
-% Histograms
-% srm = M(1:trainingSize,11);
-% mf1m = M(1:trainingSize,42);
-% spm = M(1:trainingSize,7);
-% tempo = M(1:trainingSize,41);
-% 
-% 
-% popsrm = srm(1:80);
-% metalsrm = srm(81:160);
-% discosrm = srm(161:239);
-% classicalsrm = srm(400:478);
-% 
-% subplot(2,2,1);
-% histogram(popsrm,15);
-% legend('pop');
-% hold on;
-% histogram(metalsrm,15);
-% histogram(discosrm,15);
-% histogram(classicalsrm,15);
-% title('srm');
-% hold off
-% 
-% 
-% 
-% srm = spm;
-% popsrm = srm(1:80);
-% metalsrm = srm(81:160);
-% discosrm = srm(161:239);
-% classicalsrm = srm(400:478);
-% 
-% subplot(2,2,2);
-% histogram(popsrm,15);
-% legend('pop');
-% hold on;
-% histogram(metalsrm,15);
-% histogram(discosrm,15);
-% histogram(classicalsrm,15);
-% title('spm');
-% 
-% hold off
-% 
-% 
-% 
-% srm = mf1m;
-% popsrm = srm(1:80);
-% metalsrm = srm(81:160);
-% discosrm = srm(161:239);
-% classicalsrm = srm(400:478);
-% subplot(2,2,3);
-% histogram(popsrm,15);
-% legend('pop');
-% hold on;
-% histogram(metalsrm,15);
-% histogram(discosrm,15);
-% histogram(classicalsrm,15);
-% title('mf1m');
-% 
-% hold off
-% 
-% 
-% 
-% srm = tempo;
-% popsrm = srm(1:80);
-% metalsrm = srm(81:160);
-% discosrm = srm(161:239);
-% classicalsrm = srm(400:478);
-% 
-% subplot(2,2,4);
-% histogram(popsrm,15);
-% legend('pop');
-% hold on;
-% histogram(metalsrm,15);
-% histogram(discosrm,15);
-% histogram(classicalsrm,15);
-% title('tempo');
-% 
-% hold off
+%Histograms
+srm = M(1:trainingSize,11);
+mf1m = M(1:trainingSize,42);
+spm = M(1:trainingSize,7);
+tempo = M(1:trainingSize,41);
+
+
+popsrm = srm(1:80);
+metalsrm = srm(81:160);
+discosrm = srm(161:239);
+classicalsrm = srm(400:478);
+
+subplot(2,2,1);
+histogram(popsrm,15);
+legend('pop');
+hold on;
+histogram(metalsrm,15);
+histogram(discosrm,15);
+histogram(classicalsrm,15);
+title('srm');
+hold off
+
+
+
+srm = spm;
+popsrm = srm(1:80);
+metalsrm = srm(81:160);
+discosrm = srm(161:239);
+classicalsrm = srm(400:478);
+
+subplot(2,2,2);
+histogram(popsrm,15);
+legend('pop');
+hold on;
+histogram(metalsrm,15);
+histogram(discosrm,15);
+histogram(classicalsrm,15);
+title('spm');
+
+hold off
+
+
+
+srm = mf1m;
+popsrm = srm(1:80);
+metalsrm = srm(81:160);
+discosrm = srm(161:239);
+classicalsrm = srm(400:478);
+subplot(2,2,3);
+histogram(popsrm,15);
+legend('pop');
+hold on;
+histogram(metalsrm,15);
+histogram(discosrm,15);
+histogram(classicalsrm,15);
+title('mf1m');
+
+hold off
+
+
+
+srm = tempo;
+popsrm = srm(1:80);
+metalsrm = srm(81:160);
+discosrm = srm(161:239);
+classicalsrm = srm(400:478);
+
+subplot(2,2,4);
+histogram(popsrm,15);
+legend('pop');
+hold on;
+histogram(metalsrm,15);
+histogram(discosrm,15);
+histogram(classicalsrm,15);
+title('tempo');
+
+hold off
 
 srm = M(1:trainingSize,11);
 mf1m = M(1:trainingSize,42);
@@ -208,22 +208,22 @@ errors(7-2) = 5;
 
 
 srv = M(1:trainingSize,12);
-
-srm = srv;
-popsrm = srm(1:80);
-metalsrm = srm(81:160);
-discosrm = srm(161:239);
-classicalsrm = srm(400:478);
-
-legend();
-hold on;
-histogram(metalsrm,15);
-histogram(discosrm,15);
-histogram(classicalsrm,15);
-histogram(popsrm,15);
-title('srv');
-
-hold off
+% 
+% srm = srv;
+% popsrm = srm(1:80);
+% metalsrm = srm(81:160);
+% discosrm = srm(161:239);
+% classicalsrm = srm(400:478);
+% 
+% legend();
+% hold on;
+% histogram(metalsrm,15);
+% histogram(discosrm,15);
+% histogram(classicalsrm,15);
+% histogram(popsrm,15);
+% title('srv');
+% 
+% hold off
 
 % So chose not tempo and spectral rolloff variance
 
