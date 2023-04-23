@@ -6,11 +6,9 @@ M = readmatrix(filepath);
 
 % Define general constants
 trainingSize = 792;
-testSize = 990-trainingSize;
 classLoc = size(M,2)-2;
 nclasses = 10;
 totalFeatures = 65;
-nfeatures = 4;
 
 %% Task 1
 
@@ -258,44 +256,47 @@ close all;
 
 %% Task 4
 
-features = [11 42 7 6];
+features = [11 42 7 12];
 
-featureMatrix = zeros(90,nfeatures);
+
+
+A = zeros(90,nfeatures);
 iters = 1;
 song = 1;
 
 
-class_data = zeros(1+nfeatures+nfeatures^2,nclasses);
+class_data = zeros(1+nfeatures+nfeatures^2,n_classes);
 
 for n = 1:10
     while M(song,classLoc) == n-1
         for i = features
-            featureMatrix(iters,find(features==i)) = M(song,i);
+            A(iters,find(features==i)) = M(song,i);
         end
         iters = iters+1;
         song = song +1;
     end
     
-    [covar,mean] = genCovAndMean(featureMatrix(1:iters,:));
+    [covar,mean] = genCovAndMean(A(1:iters,:));
     class_data(:,n) = [n-1;mean;reshape(covar,nfeatures^2,1)];
-    featureMatrix = zeros(90,nfeatures);
+    A = zeros(90,nfeatures);
     iters = 1;
 end
 
 
 
+test = genTestData
+test = [classes ;srm' ; mf1m' ; spm' ; spr'];
 
 % Testing
-test = genTestData(M,classLoc,features,trainingSize+1);
 
-conm = zeros(nclasses);
+
+k = 5;
+conm = zeros(n_classes);
+
 for n = 1:size(test,2)
     class = gaussianClassifier(class_data,test(2:end,n),nfeatures);
     conm(test(1,n)+1,class+1) = conm(test(1,n)+1,class+1) +1;
 end
-
-corrate = trace(conm)/testSize;
-errate = 1-corrate;
 
 
 

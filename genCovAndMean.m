@@ -4,7 +4,6 @@ function [covar,mean_v] = genCovAndMean(A)
     mean_v = zeros(size(A,2),1);
     for n = 1:size(A,2)
         mean_v(n) = mean(A(:,n));
-        %disp(mean_v(n));
     end
 
 end
