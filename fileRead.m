@@ -222,6 +222,7 @@ disp('Best feature had confusion matrix:')
 disp(bestConm);
 disp('Best feature had error rate:');
 disp(lowestErr);
+disp('press any button to continue');
 pause;
 
 [min,I] = min(errors);
