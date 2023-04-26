@@ -21,7 +21,7 @@ conm = zeros(nclasses);
 
 k = 5;
 for n = 1:size(test,2)
-    class = kNNClassifier(k,test(2:end,n),training,nclasses);
+    class = kNNClassifie(k,test(2:end,n),training,nclasses);
     conm(test(1,n)+1,class+1) = conm(test(1,n)+1,class+1) +1;
 end
 
@@ -30,12 +30,15 @@ errate = 1 - corrate;
 
 disp('Confusion matrix:');
 disp(conm);
+confusionchart(conm);
+title('kNN Classifier');
 disp('Error rate:');
 disp(errate);
 
 disp('Task 1 finished');
 disp('press any button to continue');
 pause;
+close all;
 
 %% Task 2
 
@@ -137,7 +140,7 @@ for i = 1:4
     
     conm = zeros(nclasses);
     for n = 1:size(test,2)
-        class = kNNClassifier(k,test(2:end,n),training,nclasses);
+        class = kNNClassifie(k,test(2:end,n),training,nclasses);
         conm(test(1,n)+1,class+1) = conm(test(1,n)+1,class+1) +1;
     end
 
@@ -157,8 +160,12 @@ for i = 1:4
     disp('Error rate:');
     disp(errate);
     
+    confusionchart(conm);
+
+    
     disp('press any button to continue');
     pause;
+    close all;
     
 end
 
@@ -201,7 +208,7 @@ for n = 3:totalFeatures
 
     conm = zeros(nclasses); 
     for i = 1:size(test,2)
-        class = kNNClassifier(k,test(2:end,i),training,nclasses);
+        class = kNNClassifie(k,test(2:end,i),training,nclasses);
         conm(test(1,i)+1,class+1) = conm(test(1,i)+1,class+1) +1; 
     end
     corr = trace(conm)/size(test,2);
@@ -223,8 +230,9 @@ disp(bestConm);
 disp('Best feature had error rate:');
 disp(lowestErr);
 disp('press any button to continue');
+confusionchart(conm);
 pause;
-
+close all;
 [min,I] = min(errors);
 
 I = I+2;

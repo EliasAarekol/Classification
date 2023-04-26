@@ -42,6 +42,12 @@ end
 corrate = trace(conm)/testSize;
 errate = 1-corrate;
 
+
+training = genTrainingData(M,classLoc,[11 42 7 6],trainingSize);
+
+blabla = kNNClassifie(5,test(2:end,end),training,10);
+
+
 function class = f(models,test)
 
     probs = zeros(2,size(models,2));
@@ -60,4 +66,9 @@ function class = f(models,test)
 
 end
 % shit performance, verdt å teste.
+
+
+
+
+
 
