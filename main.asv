@@ -45,7 +45,7 @@ conm = zeros(nclasses);
 % Testing
 k = 5;
 for n = 1:size(test,2)
-    class = kNNClassifier(k,test(2:end,n),training);
+    class = kNNClassifie(k,test(2:end,n),training,nclasses);
     conm(test(1,n)+1,class+1) = conm(test(1,n)+1,class+1) +1;
 end
 
@@ -166,7 +166,7 @@ for i = 1:4
     
     conm = zeros(nclasses);
     for n = 1:size(test,2)
-        class = kNNClassifier(k,test(2:end,n),training);
+        class = kNNClassifie(k,test(2:end,n),training,nclasses);
         conm(test(1,n)+1,class+1) = conm(test(1,n)+1,class+1) +1;
     end
 
@@ -230,7 +230,7 @@ for n = 3:totalFeatures
 
     conm = zeros(nclasses); 
     for i = 1:size(test,2)
-        class = kNNClassifier(k,test(2:end,i),training);
+        class = kNNClassifie(k,test(2:end,i),training,nclasses);
         conm(test(1,i)+1,class+1) = conm(test(1,i)+1,class+1) +1; 
     end
     corr = trace(conm)/size(test,2);
@@ -263,7 +263,7 @@ close all;
 
 I = I+2;
 
-disp('Now plotting histogram for ' + bestFeature(1)+bestFeature(2));
+disp('Now plotting histogram for ' + bestFeature);
 
 histogramData = genTrainingData(M,classLoc,[11 42 7 I],trainingSize);
 
@@ -331,16 +331,11 @@ end
 corrate = trace(conm)/testSize;
 errate = 1-corrate;
 
-disp('plug-in MAP classifier error rate is:');
-disp(errate);
+disp('plug-in MAP classifier error rate is:')
 
 cm = confusionchart(conm,classes,'RowSummary','row-normalized');
 sortClasses(cm,'descending-diagonal');
 title("plug-in MAP classifier");
-
-disp('press any button to continue');
-pause;
-close all;
 
 
 % Test with extra feature
@@ -382,9 +377,6 @@ end
 corrate = trace(conm)/testSize;
 errate = 1-corrate;
 
-disp('plug-in MAP classifier error rate with extra feature is:');
-disp(errate);
-
 histogramData = genTrainingData(M,classLoc,[11 42 7 22],trainingSize);
 
 
@@ -404,12 +396,8 @@ histogram(classical,15);
 title('chroma stft 6 mean');
 hold off
 legend;
-
-
-
-disp('press any button to continue');
-pause;
 close all;
+
 
 cm = confusionchart(conm,classes,'RowSummary','row-normalized');
 sortClasses(cm,'descending-diagonal');

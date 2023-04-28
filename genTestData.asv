@@ -1,0 +1,21 @@
+function test = genTestData(dataMatrix,classLoc,features,testStart)
+
+    Generates test data for classifier testing.
+    
+    Inputs: 
+            dataMatrix = Matrix containig data where each column is a feature
+                         and each row is a song.
+             classLoc = location of class labels in dataMatrix
+             features = a 1XN vector containg the location of which features extract from the dataMatrix,
+                         N is the number of features.
+             testStart = 
+    
+
+    nFeatures = size(features,2);
+    test = zeros(nFeatures+1,size(dataMatrix,1)-testStart+1);
+    test(1,:) = dataMatrix(testStart:end,classLoc)';
+    
+    for n = 2:nFeatures+1
+        test(n,:) = dataMatrix(testStart:end,features(n-1))';
+    end
+end

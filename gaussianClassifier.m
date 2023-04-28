@@ -1,6 +1,17 @@
 function class = gaussianClassifier(class_data,test,nfeatures)
 
-    %prob = @(mean_vec,covar,test) 1/((2*pi)^(size(test,1)/2)*det(covar))*exp(-1/2*(test-mean_vec)'*inv(covar)*(test-mean_vec));
+%     A general plug-in MAP classifier using a gaussian single mixture model.
+%     
+%     Inputs:
+%             class_data = A matrix where each column includes the mean vector and reshaped
+%                          covariance matrix for a single class. The matrix is (N+1+N^2)xM, where N is the number of features
+%                          and M is the number of classes. The first row is the class label,
+%                          the next set of rows is the mean vector and the last rows are the reshaped covar matrix.
+%             test = The input vector to be classified. A Nx1 vector where N is the number of features
+%             nfeatures = The number of features to be used in classification.
+%     Outputs:
+%             class = the classifiers guess at the class of the input
+
     
     
     

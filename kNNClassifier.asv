@@ -11,7 +11,7 @@ function class = kNNClassifier(k,test,training,zscore)
 %                        and the next N rows are the features
 %             zscore = Setting this value changes the normalization from min-max to zscore
 %     Outputs:
-%             class = the classifiers guess at the class of the input
+              class = the classifiers guess at the class of the input
 
 
     if exist('zscore','var')
