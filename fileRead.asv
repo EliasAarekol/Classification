@@ -4,6 +4,14 @@ clc; close all; clear;
 filepath = 'data/GenreClassData_30s.txt';
 M = readmatrix(filepath);
 
+file = fopen(filepath,'r');
+firstLine = fgetl(file);
+words = textscan(firstLine,'%s');
+fclose(file);
+
+allFeatures = string(words{1}(4:end-3))';
+classes = ["pop" "metal" "disco" "blues" "reggae" "classical" "rock" "hiphop" "country" "jazz"];
+
 % Define general constants
 trainingSize = 792;
 testSize = 990-trainingSize;
@@ -11,6 +19,8 @@ classLoc = size(M,2)-2;
 nclasses = 10;
 totalFeatures = 65;
 nfeatures = 4;
+
+
 
 %% Task 1
 
@@ -30,7 +40,9 @@ errate = 1 - corrate;
 
 disp('Confusion matrix:');
 disp(conm);
-confusionchart(conm);
+figure;
+cm = confusionchart(conm,classes,'RowSummary','row-normalized');
+sortClasses(cm,'descending-diagonal');
 title('kNN Classifier');
 disp('Error rate:');
 disp(errate);
@@ -159,8 +171,9 @@ for i = 1:4
     disp(conm);
     disp('Error rate:');
     disp(errate);
-    
-    confusionchart(conm);
+    cm = confusionchart(conm,classes,'RowSummary','row-normalized');
+    title(featuresString(i) + " removed");
+    sortClasses(cm,'descending-diagonal');
 
     
     disp('press any button to continue');
@@ -188,12 +201,7 @@ bestConm = zeros(nclasses);
 lowestErr = inf;
 
 
-file = fopen(filepath,'r');
-firstLine = fgetl(file);
-words = textscan(firstLine,'%s');
-fclose(file);
 
-allFeatures = string(words{1}(4:end-3))';
 bestFeature = allFeatures(1);
 
 for n = 3:totalFeatures 
@@ -230,7 +238,9 @@ disp(bestConm);
 disp('Best feature had error rate:');
 disp(lowestErr);
 disp('press any button to continue');
-confusionchart(conm);
+cm = confusionchart(bestConm,classes,'RowSummary','row-normalized');
+sortClasses(cm,'descending-diagonal');
+title(split(best);
 pause;
 close all;
 [min,I] = min(errors);
@@ -267,8 +277,8 @@ close all;
 
 %% Task 4
 
-features = [11 42 7 6];
-
+features = [11 42 7 6 22];
+nfeatures = 5;
 featureMatrix = zeros(90,nfeatures);
 iters = 1;
 song = 1;
@@ -305,6 +315,32 @@ end
 
 corrate = trace(conm)/testSize;
 errate = 1-corrate;
+
+histogramData = genTrainingData(M,classLoc,[11 42 7 22],trainingSize);
+
+
+feature = histogramData(5,:)';
+
+
+pop = feature(1:80);
+metal = feature(81:160);
+disco = feature(161:239);
+classical = feature(400:478);
+
+hold on;
+histogram(pop,15);
+histogram(metal,15);
+histogram(disco,15);
+histogram(classical,15);
+title('chroma stft 6 mean');
+hold off
+legend;
+close all;
+
+
+cm = confusionchart(conm,classes,'RowSummary','row-normalized');
+sortClasses(cm,'descending-diagonal');
+title("plug-in MAP classifier");
 
 
 
