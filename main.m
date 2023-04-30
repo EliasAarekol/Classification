@@ -301,6 +301,7 @@ iters = 1;
 song = 1;
 
 % Generate covariance and mean vectors for each class
+
 class_data = zeros(1+nfeatures+nfeatures^2,nclasses);
 
 for n = 1:10
@@ -415,5 +416,172 @@ cm = confusionchart(conm,classes,'RowSummary','row-normalized');
 sortClasses(cm,'descending-diagonal');
 title("plug-in MAP classifier");
 
+disp('Task 4 finished');
 
+%% Function defs
+
+function class = kNNClassifier(k,test,training,zscore)
+
+%     A general kNN classifier that uses the k nearest data points in the training set
+%     to classify an input
+%     
+%     Inputs:
+%             k = number of closest data points in the training set to the input
+%             test = the input vector to be classified. A Nx1 vector where N is the number of features, each element is a feature
+%             training = the training data set. A N+1xM where N is the number of features and M is the size of the training set.
+%                        Every column represents a labeled data point where the first row is the class label,
+%                        and the next N rows are the features
+%             zscore = Setting this value changes the normalization from min-max to zscore
+%     Outputs:
+%             class = the classifiers guess at the class of the input
+
+
+    if exist('zscore','var')
+        for n = 2:size(training,1)
+        sigma = std(training(n,:));
+        mu = mean(training(n,:));
+        training(n,:) = (training(n,:)-mu)/sigma;
+        test(n-1) = (test(n-1) -mu)/sigma; 
+        end
+    else
+        for n = 2:size(training,1)
+        ma = max(training(n,:));
+        mi = min(training(n,:));
+        training(n,:) = (training(n,:)-mi)/(ma-mi);
+        test(n-1) = (test(n-1) -mi)/(ma-mi); 
+        end
+    end
+    
+    diff = pdist2(test',training(2:end,:)');
+    [sorted,indexes] = sort(diff,2);
+    
+    kNN_labels = training(1,indexes(:,1:k));
+    
+    labels = mode(kNN_labels);
+    class = labels(1);
+
+    for n = 1:length(kNN_labels)
+        if ismember(kNN_labels(n),labels)
+            class = kNN_labels(n);
+            break
+        end
+    end 
+
+    
+    
+    
+    
+end
+
+
+function training = genTrainingData(dataMatrix,classLoc,features,trainingSize)
+
+%     Generates test data for classifier testing.
+%     
+%     Inputs: 
+%             dataMatrix = Matrix containig data where each column is a feature
+%                          and each row is a song.
+%              classLoc = location of column containing class labels in dataMatrix
+%              features = a 1XN vector containg the location of which features extract from the dataMatrix,
+%                          N is the number of features.
+%              trainingSize = Index of row where trainingdata ends in dataMatrix
+%     Outputs:
+%              training = A (N+1)xM matrix where each column represents a track and each row
+%                         represents its features. The class label is contained in the first row.
+%                         N is the number of features and M is the number
+%                         of tracks in the training set.
+%  
+%                       
+%     
+    nFeatures = size(features,2);
+    training = zeros(nFeatures+1,trainingSize);
+    training(1,:) = dataMatrix(1:trainingSize,classLoc)';
+    
+    for n = 2:nFeatures+1
+        training(n,:) = dataMatrix(1:trainingSize,features(n-1))';
+    end
+
+
+
+end
+
+
+
+
+function test = genTestData(dataMatrix,classLoc,features,testStart)
+
+%     Generates test data for classifier testing.
+%     
+%     Inputs: 
+%             dataMatrix = Matrix containig data where each column is a feature
+%                          and each row is a song.
+%              classLoc = location of column containing class labels in dataMatrix
+%              features = a 1XN vector containg the location of which features extract from the dataMatrix,
+%                          N is the number of features.
+%              testStart = Index of row where testdata starts in dataMatrix
+%     Outputs:
+%              test = A (N+1)xM matrix where each column represents a track and each row
+%                     represents its features. The class label is contained in the first row.
+%                     N is the number of features and M is the number of
+%                     tracks in the test set.
+%     
+
+    nFeatures = size(features,2);
+    test = zeros(nFeatures+1,size(dataMatrix,1)-testStart+1);
+    test(1,:) = dataMatrix(testStart:end,classLoc)';
+    
+    for n = 2:nFeatures+1
+        test(n,:) = dataMatrix(testStart:end,features(n-1))';
+    end
+end
+
+
+function [covar,mean_v] = genCovAndMean(A)
+
+%     Generates the covariance matrix of the input A, and a
+%     mean vector where each element is the mean of the corresponding 
+%     column of A.
+
+    covar = cov(A);
+    mean_v = zeros(size(A,2),1);
+    for n = 1:size(A,2)
+        mean_v(n) = mean(A(:,n));
+    end
+
+end
+
+
+function class = gaussianClassifier(class_data,test,nfeatures)
+
+%     A general plug-in MAP classifier using a gaussian single mixture model.
+%     
+%     Inputs:
+%             class_data = A matrix where each column includes the mean vector and reshaped
+%                          covariance matrix for a single class. The matrix is (N+1+N^2)xM, where N is the number of features
+%                          and M is the number of classes. The first row is the class label,
+%                          the next set of rows is the mean vector and the last rows are the reshaped covar matrix.
+%             test = The input vector to be classified. A Nx1 vector where N is the number of features
+%             nfeatures = The number of features to be used in classification.
+%     Outputs:
+%             class = the classifiers guess at the class of the input
+
+    
+    
+    
+    
+    probs = zeros(2,size(class_data,2));
+    probs(1,:) = 0:size(class_data,2)-1;
+    
+    for n = 1:size(class_data,2)
+        mean_vec = class_data(2:nfeatures+1,n);
+        covar = reshape(class_data(nfeatures+2:end,n),nfeatures,nfeatures);
+        probs(2,n) = mvnpdf(test,mean_vec,covar);
+    end
+    
+    probs = sortrows(probs',2)';
+    probs = flip(probs,2);
+    class = probs(1,1);
+    
+
+end
 
